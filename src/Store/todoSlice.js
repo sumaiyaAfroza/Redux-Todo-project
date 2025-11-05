@@ -31,9 +31,30 @@ const todoSlice = createSlice({
       if(todo) {
         todo.completed = !todo.completed
       }
+    },
+    deleteTodo:(state, action)=> {
+      state.items = state.items.filter(todo => todo.id !== action.payload)
+    },
+    updateTodo:(state, action) => {
+      const {id, update} = action.payload
+      const todo = state.items.find(todo => todo.id === id)
+      if(todo) {
+        Object.assign(todo, update , {
+          updatedAt: new Date().toISOString()
+        })
+      }
+    },
+    markAllComplete:(state,action) => {
+      const hasComplete = state.items.some(todo => !todo.completed )
+      state.items.forEach(todo => {
+        todo.completed = hasComplete
+      })
+    },
+    clearComplete : (state, action) => {
+      state.items = state.items.filter(todo => !todo.completed)
     }
   }
 })
 
-export const {setIsAddingTodo, addTodo, setFilter, toggleTodo} = todoSlice.actions
+export const {setIsAddingTodo, addTodo, setFilter, toggleTodo, deleteTodo, updateTodo, markAllComplete ,clearComplete} = todoSlice.actions
 export default todoSlice.reducer

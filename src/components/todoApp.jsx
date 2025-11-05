@@ -10,7 +10,7 @@ import {
   selectTodos,
   selectTodosStates
 } from "../store/selector.js";
-import {setFilter, setIsAddingTodo} from "../store/todoSlice.js";
+import {clearComplete, markAllComplete, setFilter, setIsAddingTodo} from "../store/todoSlice.js";
 
 export const TodoApp = () => {
   const dispatch = useDispatch()
@@ -25,6 +25,14 @@ export const TodoApp = () => {
   }
   const handleFilter = (newFilter) => {
     dispatch(setFilter(newFilter))
+  }
+
+  const handleMarkComplete = () =>{
+    dispatch(markAllComplete())
+  }
+
+  const handleClear = ()=> {
+    dispatch(clearComplete())
   }
 
 
@@ -79,7 +87,7 @@ export const TodoApp = () => {
                 <div className='flex items-center gap-2'>
                   {
                     state.completed > 0 && (
-                      <button
+                      <button onClick={handleClear}
                         className='flex items-center gap-3 text-red-600 hover:text-red-700 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors duration-200 text-sm'>
                         <Trash2 size={20}/> Clear Completed
                       </button>
@@ -87,7 +95,7 @@ export const TodoApp = () => {
                   }
                   {
                     state.active > 0 && (
-                      <button
+                      <button onClick={handleMarkComplete}
                         className='flex items-center gap-3 text-green-600 hover:text-green-700 px-4 py-2 rounded-lg hover:bg-green-50 transition-colors duration-200 text-sm'>
                         <CheckCircle2 size={20}/> Mark All Completed
                       </button>
