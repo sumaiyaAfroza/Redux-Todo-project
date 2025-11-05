@@ -5,7 +5,6 @@ const initialState = {
   filter: 'all',
   isAddingTodo: false
 }
-
 const todoSlice = createSlice({
   name: 'todos',
   initialState,
@@ -26,8 +25,15 @@ const todoSlice = createSlice({
     },
     setFilter:(state, action) => {
       state.filter = action.payload
+    },
+    toggleTodo: (state, action) => {
+      const todo = state.items.find(todo => todo.id === action.payload)
+      if(todo) {
+        todo.completed = !todo.completed
+      }
     }
   }
 })
-export const {setIsAddingTodo, addTodo, setFilter} = todoSlice.actions
+
+export const {setIsAddingTodo, addTodo, setFilter, toggleTodo} = todoSlice.actions
 export default todoSlice.reducer

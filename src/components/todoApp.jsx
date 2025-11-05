@@ -10,7 +10,7 @@ import {
   selectTodos,
   selectTodosStates
 } from "../store/selector.js";
-import {setIsAddingTodo} from "../store/todoSlice.js";
+import {setFilter, setIsAddingTodo} from "../store/todoSlice.js";
 
 export const TodoApp = () => {
   const dispatch = useDispatch()
@@ -22,6 +22,9 @@ export const TodoApp = () => {
 
   const handleAddTodo = () => {
     dispatch(setIsAddingTodo(true))
+  }
+  const handleFilter = (newFilter) => {
+    dispatch(setFilter(newFilter))
   }
 
 
@@ -38,25 +41,25 @@ export const TodoApp = () => {
             <div className='bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-gray-300 shadow-lg'>
               <div className='flex items-center justify-between mb-4'>
                 <h2 className='text-lg font-semibold text-gray-800'>Progress Overview</h2>
-                <div className='text-2xl font-bold text-green-600'></div>
+                <div className='text-2xl font-bold text-green-600'>{state.completionPercentage}%</div>
               </div>
               <div className='w-full bg-gray-300 rounded-full h-3 mb-4'>
                 <div
-                  className='bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all duration-500 ease-out'>
+                  className='bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all duration-500 ease-out' style={{width: `${state.completionPercentage}%`}}>
                 </div>
               </div>
               <div className='grid grid-cols-3 gap-4 text-center'>
                 <div>
-                  <div className='text-2xl font-bold text-gray-800'></div>
-                  <div className='text-sm text-gray-600'>{state.total}</div>
+                  <div className='text-2xl font-bold text-gray-800'>{state.total}</div>
+                  <div className='text-sm text-gray-600'>total</div>
                 </div>
                 <div>
-                  <div className='text-2xl font-bold text-gray-800'></div>
-                  <div className='text-sm text-gray-600'>{state.active}</div>
+                  <div className='text-2xl font-bold text-gray-800'>{state.active}</div>
+                  <div className='text-sm text-gray-600'>active</div>
                 </div>
                 <div>
-                  <div className='text-2xl font-bold text-gray-800'></div>
-                  <div className='text-sm text-gray-600'>{state.completed}</div>
+                  <div className='text-2xl font-bold text-gray-800'>{state.completed}</div>
+                  <div className='text-sm text-gray-600'>completed</div>
                 </div>
               </div>
             </div>
@@ -94,7 +97,7 @@ export const TodoApp = () => {
               )}
 
             </div>
-            <TodoFilter state={state} filter={filter}/>
+            <TodoFilter onFilter={handleFilter} state={state} filter={filter}/>
           </div>
 
           {
@@ -132,7 +135,7 @@ export const TodoApp = () => {
 
               ) : (<div className='divide-y divide-gray-300'>
                 { filteredTodos.map((filterTodo, index) => (
-                  <TodoItem key={filterTodo.id} filterTodo={filterTodo} index={index}/>
+                  <TodoItem  key={filterTodo.id} filterTodo={filterTodo} index={index}/>
                 ))}
               </div>)
             }

@@ -1,7 +1,7 @@
 import React from 'react'
 import {CheckCircle, Clock, Icon, List} from 'lucide-react';
 
-export const TodoFilter = ({state, filter}) => {
+export const TodoFilter = ({state, filter,onFilter}) => {
   const filters = [
     {key: 'all', label: 'All', icon: List, count: state.total  },
     {key: 'active', label: 'Active', icon: Clock, count: state.active },
@@ -13,7 +13,7 @@ export const TodoFilter = ({state, filter}) => {
       <div className='inline-flex bg-gray-200 rounded-lg p-1'>
         {
           filters.map(({key,label, icon: Icon,  count}) =>(
-            <button key={key}
+            <button onClick={() => onFilter(key)} key={key}
             className={`flex items-center px-2 py-2 gap-2 rounded-md text-sm font-medium transition-all duration-200
              ${filter === key ? 'bg-white text-gray-800 shadow-md'
               : 'text-gray-700 hover:text-gray-800 hover:bg-gray-300'}`}>

@@ -1,7 +1,9 @@
-import {Calendar, Edit3, Trash2} from 'lucide-react';
+import {Calendar, Check, Edit3, Trash2} from 'lucide-react';
+import {useDispatch} from "react-redux";
+import {toggleTodo} from "../Store/todoSlice.js";
 
 export const TodoItem = ({filterTodo,index}) => {
-
+const dispatch = useDispatch()
   const formatDate = dateString => {
     const date = new Date(dateString)
     return new Intl.DateTimeFormat('en-US', {
@@ -12,10 +14,16 @@ export const TodoItem = ({filterTodo,index}) => {
     }).format(date)
   }
 
+  const handleToggle = () =>{
+    dispatch(toggleTodo(filterTodo.id))
+  }
+
   return (
     <div className='group p-4 hover:bg-gray-100 transition-all duration-200'>
       <div className="flex items-start gap-3">
-        <button className='flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 mt-0.5'>
+        <button  onClick={handleToggle} className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 mt-0.5
+        ${filterTodo.completed ? 'bg-green-500 border-green-500 text-black hover:bg-green-600' : 'border-gray-400 hover:border-green-500 hover:bg-green-50'}`}>
+           <Check size={14} />
         </button>
         <div className="flex-1 min-w-0">
           <div className="text-gray-800 leading-relaxed">{filterTodo.text}</div>
